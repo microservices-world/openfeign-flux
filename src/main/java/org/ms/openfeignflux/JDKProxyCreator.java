@@ -89,6 +89,7 @@ public class JDKProxyCreator implements ProxyCreator {
                     RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
                     if (requestBody != null) {
                         methodInfo.setBody((Mono<?>) args[i]);
+                        methodInfo.setBodyElementType(extractElementType(parameters[i].getParameterizedType()));
                     }
                 }
             }

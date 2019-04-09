@@ -5,6 +5,7 @@ import org.ms.openfeignflux.RestHandler;
 import org.ms.openfeignflux.ServerInfo;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 
 /**
@@ -23,15 +24,22 @@ public class WebClientRestHandler implements RestHandler {
     @Override
     public Object invokeRest(final MethodInfo methodInfo) {
         Object result;
-        ResponseSpec request = client
+        RequestBodySpec accept = client
                 .method(methodInfo.getHttpMethod())
                 .uri(methodInfo.getUrl(), methodInfo.getParams())
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .retrieve();
-        if (methodInfo.isReturnFlux()) {
-            result = request.bodyToFlux(methodInfo.getReturnElementType());
+                .accept(MediaType.APPLICATION_JSON_UTF8);
+        ResponseSpec retrieve;
+        if (methodInfo.getBody() != null) {
+            retrieve = accept.body(methodInfo.getBody(), methodInfo.getBodyElementType()).retrieve();
         } else {
-            result = request.bodyToMono(methodInfo.getReturnElementType());
+            retrieve= accept
+                .retrieve();
+        }
+
+        if (methodInfo.isReturnFlux()) {
+            result = retrieve.bodyToFlux(methodInfo.getReturnElementType());
+        } else {
+            result = retrieve.bodyToMono(methodInfo.getReturnElementType());
         }
         return result;
     }

@@ -20,7 +20,8 @@ public class MethodInfo {
     private String url;
     private HttpMethod httpMethod;
     private Map<String, Object> params;
-    private Mono<?> body;
+    private Mono body;
     private boolean returnFlux;
     private Class<?> returnElementType;
+    private Class<?> bodyElementType;
 }

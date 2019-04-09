@@ -26,5 +26,5 @@ public interface IUserApi {
     Mono<Void> deleteUser(@PathVariable("id") String id);
 
     @PostMapping("/")
-    Mono<Void> createUser(@RequestBody Mono<User> user);
+    Mono<User> createUser(@RequestBody Mono<User> user);
 }
