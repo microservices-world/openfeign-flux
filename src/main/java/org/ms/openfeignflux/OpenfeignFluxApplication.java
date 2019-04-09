@@ -1,5 +1,7 @@
 package org.ms.openfeignflux;
 
+import org.ms.openfeignflux.interfaces.ProxyCreator;
+import org.ms.openfeignflux.proxies.JDKProxyCreator;
 import org.ms.openfeignflux.test.IUserApi;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +22,7 @@ public class OpenfeignFluxApplication {
 
     @Bean
     FactoryBean<IUserApi> userApi(ProxyCreator proxyCreator) {
-        return new FactoryBean<IUserApi>() {
+        return new FactoryBean<>() {
             @Override
             public IUserApi getObject() throws Exception {
                 return (IUserApi) proxyCreator.createProxy(getObjectType());

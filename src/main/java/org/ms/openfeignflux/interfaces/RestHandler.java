@@ -1,5 +1,8 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.interfaces;
 
+
+import org.ms.openfeignflux.beans.MethodInfo;
+import org.ms.openfeignflux.beans.ServerInfo;
 
 /**
  * @author Zhenglai

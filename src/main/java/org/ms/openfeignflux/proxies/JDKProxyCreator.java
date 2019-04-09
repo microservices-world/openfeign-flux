@@ -1,4 +1,4 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.proxies;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -7,19 +7,24 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
+
+import org.ms.openfeignflux.ApiServer;
+import org.ms.openfeignflux.beans.MethodInfo;
+import org.ms.openfeignflux.beans.ServerInfo;
+import org.ms.openfeignflux.interfaces.ProxyCreator;
+import org.ms.openfeignflux.interfaces.RestHandler;
 import org.ms.openfeignflux.resthandlers.WebClientRestHandler;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

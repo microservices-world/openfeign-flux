@@ -1,14 +1,14 @@
 package org.ms.openfeignflux.resthandlers;
 
-import jdk.jshell.Snippet.Status;
-import org.ms.openfeignflux.MethodInfo;
-import org.ms.openfeignflux.RestHandler;
-import org.ms.openfeignflux.ServerInfo;
+import org.ms.openfeignflux.beans.MethodInfo;
+import org.ms.openfeignflux.beans.ServerInfo;
+import org.ms.openfeignflux.interfaces.RestHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+
 import reactor.core.publisher.Mono;
 
 /**
@@ -27,19 +27,17 @@ public class WebClientRestHandler implements RestHandler {
     @Override
     public Object invokeRest(final MethodInfo methodInfo) {
         Object result;
-        RequestBodySpec accept = client
-                .method(methodInfo.getHttpMethod())
-                .uri(methodInfo.getUrl(), methodInfo.getParams())
-                .accept(MediaType.APPLICATION_JSON_UTF8);
+        RequestBodySpec accept = client.method(methodInfo.getHttpMethod())
+            .uri(methodInfo.getUrl(), methodInfo.getParams()).accept(MediaType.APPLICATION_JSON_UTF8);
         ResponseSpec retrieve;
         if (methodInfo.getBody() != null) {
             retrieve = accept.body(methodInfo.getBody(), methodInfo.getBodyElementType()).retrieve();
         } else {
-            retrieve= accept
-                .retrieve();
+            retrieve = accept.retrieve();
         }
 
-        retrieve.onStatus(status -> status == HttpStatus.NOT_FOUND, resp -> Mono.just(new RuntimeException("Not Found")));
+        retrieve.onStatus(status -> status == HttpStatus.NOT_FOUND,
+            resp -> Mono.just(new RuntimeException("Not Found")));
 
         if (methodInfo.isReturnFlux()) {
             result = retrieve.bodyToFlux(methodInfo.getReturnElementType());

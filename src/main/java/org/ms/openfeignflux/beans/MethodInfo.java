@@ -1,4 +1,4 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.beans;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;

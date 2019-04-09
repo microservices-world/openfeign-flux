@@ -1,4 +1,4 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

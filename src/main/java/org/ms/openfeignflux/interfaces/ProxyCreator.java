@@ -1,4 +1,4 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.interfaces;
 
 /**
  * 创建代理类接口
