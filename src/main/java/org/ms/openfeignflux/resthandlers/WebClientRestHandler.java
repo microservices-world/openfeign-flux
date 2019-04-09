@@ -1,12 +1,15 @@
 package org.ms.openfeignflux.resthandlers;
 
+import jdk.jshell.Snippet.Status;
 import org.ms.openfeignflux.MethodInfo;
 import org.ms.openfeignflux.RestHandler;
 import org.ms.openfeignflux.ServerInfo;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Zhenglai
@@ -35,6 +38,8 @@ public class WebClientRestHandler implements RestHandler {
             retrieve= accept
                 .retrieve();
         }
+
+        retrieve.onStatus(status -> status == HttpStatus.NOT_FOUND, resp -> Mono.just(new RuntimeException("Not Found")));
 
         if (methodInfo.isReturnFlux()) {
             result = retrieve.bodyToFlux(methodInfo.getReturnElementType());

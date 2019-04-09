@@ -17,11 +17,13 @@ public class TestController {
 
     @GetMapping("/")
     public void test() {
-//        var users = userApi.getAllUser();
-//        userApi.getUser("5cab8a5c8b0b783897fd2e19");
-//        userApi.deleteUser("5cab8a7c8b0b783897fd2e1a").subscribe(x -> System.out.println("delete success"));
-        userApi.createUser(Mono.just(User.builder().age(12).name("test").build()))
-            .subscribe(System.out::println);
-//        users.subscribe(System.out::println);
+        // var users = userApi.getAllUser();
+        // userApi.getUser("5cab8a5c8b0b783897fd2e19");
+        userApi.deleteUser("5cab8a7c8b0b783897fd2e1a")
+                .subscribe( user -> System.out.println("delete success: " + user),
+                    ex -> System.err.println("cannot find user:"+ex.getMessage()));
+        // userApi.createUser(Mono.just(User.builder().age(12).name("test").build()))
+        // .subscribe(System.out::println);
+        // users.subscribe(System.out::println);
     }
 }
