@@ -21,6 +21,6 @@ public class TestController {
         userApi.getUser("12313");
         userApi.deleteUser("3121");
         userApi.createUser(Mono.just(new User()));
-        users.subscribe(System.out::println);
+//        users.subscribe(System.out::println);
     }
 }

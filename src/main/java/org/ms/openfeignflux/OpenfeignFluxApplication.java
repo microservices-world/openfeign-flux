@@ -23,7 +23,7 @@ public class OpenfeignFluxApplication {
         return new FactoryBean<IUserApi>() {
             @Override
             public IUserApi getObject() throws Exception {
-                return (IUserApi) proxyCreator.createProxy(getClass());
+                return (IUserApi) proxyCreator.createProxy(getObjectType());
             }
 
             @Override
