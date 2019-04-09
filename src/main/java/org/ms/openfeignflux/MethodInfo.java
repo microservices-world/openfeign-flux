@@ -21,4 +21,6 @@ public class MethodInfo {
     private HttpMethod httpMethod;
     private Map<String, Object> params;
     private Mono<?> body;
+    private boolean returnFlux;
+    private Class<?> returnElementType;
 }

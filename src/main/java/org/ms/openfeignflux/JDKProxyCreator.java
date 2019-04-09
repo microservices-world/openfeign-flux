@@ -4,7 +4,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -56,8 +59,21 @@ public class JDKProxyCreator implements ProxyCreator {
             private MethodInfo extractMethodInfo(final Method method, final Object[] args) {
                 var methodInfo = new MethodInfo();
                 extractUrlAndMethod(method, methodInfo);
+                extractReturnType(method, methodInfo);
                 extractRequestParamsAndBody(method, args, methodInfo);
                 return methodInfo;
+            }
+
+            private void extractReturnType(final Method method, final MethodInfo methodInfo) {
+                boolean isFlux = method.getReturnType().isAssignableFrom(Flux.class);
+                methodInfo.setReturnFlux(isFlux);
+                Class<?> elementType = extractElementType(method.getGenericReturnType());
+                methodInfo.setReturnElementType(elementType);
+            }
+
+            private Class<?> extractElementType(final Type genericReturnType) {
+                Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
+                return (Class<?>) actualTypeArguments[0];
             }
 
             private void extractRequestParamsAndBody(final Method method, final Object[] args, final MethodInfo methodInfo) {
