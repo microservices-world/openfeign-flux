@@ -1,4 +1,4 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.test;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

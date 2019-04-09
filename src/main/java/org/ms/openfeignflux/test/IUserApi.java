@@ -1,5 +1,6 @@
-package org.ms.openfeignflux;
+package org.ms.openfeignflux.test;
 
+import org.ms.openfeignflux.ApiServer;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,5 +26,5 @@ public interface IUserApi {
     Mono<Void> deleteUser(@PathVariable("id") String id);
 
     @PostMapping("/")
-    Mono<Void> createUser(@RequestBody User user);
+    Mono<Void> createUser(@RequestBody Mono<User> user);
 }
